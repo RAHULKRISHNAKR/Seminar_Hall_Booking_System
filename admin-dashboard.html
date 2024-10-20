@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="admin-styles.css"> <!-- Link to your CSS -->
 </head>
 <body>
-<!--<!h1>Admin Dashboard</h1>!-->
     <div id="booking-list">
         <h2>Bookings</h2>
         <table id="bookings-table">
@@ -18,10 +17,10 @@
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th>Actions</th> <!-- New header for action buttons -->
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="bookings-tbody"> <!-- Add an ID here for JS selection -->
                 <!-- Bookings will be populated here -->
             </tbody>
         </table>
@@ -29,6 +28,5 @@
     <p><a href="admin-login.html">Back to Admin Login</a></p>
 
     <script src="admin-scripts.js"></script>
-
 </body>
 </html>
