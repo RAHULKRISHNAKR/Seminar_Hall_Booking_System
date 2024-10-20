@@ -2,7 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch and display bookings
     function fetchBookings() {
         fetch('http://localhost:3000/admin/bookings')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 const tableBody = document.querySelector('#bookings-table tbody');
                 tableBody.innerHTML = ''; // Clear existing table rows
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to approve booking
 function approveBooking(bookingId) {
-    fetch(`/admin/approve/${bookingId}`, { method: 'POST' })
+    fetch(`http://localhost:3000/admin/approve/${bookingId}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
             if (data.message) {
@@ -49,10 +54,10 @@ function approveBooking(bookingId) {
 
 // Function to deny booking
 function denyBooking(bookingId) {
-    fetch(`/admin/deny/${bookingId}`, { method: 'POST' })
+    fetch(`http://localhost:3000/admin/deny-booking/${bookingId}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
-            if (data.message) {
+            if (data.status === 'success') {
                 alert('Booking denied!');
                 location.reload(); // Reload the table
             } else {

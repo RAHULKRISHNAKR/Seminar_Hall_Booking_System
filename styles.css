@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-color: #007BFF;
+    background-color: #4CAF50;
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -60,7 +60,7 @@ h2 {
 }
 
 .input-group input:focus {
-    border-color: #007BFF;
+    border-color: #4CAF50;
     outline: none;
 }
 
@@ -69,7 +69,7 @@ h2 {
     width: 100%;
     padding: 12px;
     font-size: 1.1rem;
-    background-color: #007BFF;
+    background-color: #4CAF50;
     border: none;
     color: white;
     border-radius: 5px;
@@ -78,7 +78,7 @@ h2 {
 }
 
 .primary-btn:hover {
-    background-color: #0056b3;
+    background-color: #4CAF50;
 }
 
 /* Responsive Design */
