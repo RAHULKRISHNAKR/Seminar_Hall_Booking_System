@@ -171,7 +171,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // your MySQL username
-    password: 'rahul123',  // your MySQL password
+    password: 'nibras1234',  // your MySQL password
     database: 'SeminarHallBooking' // your database name
 });
 
@@ -311,4 +311,19 @@ app.get('/bookings/:bookingId', (req, res) => {
 // Start the server
 app.listen(3000, () => {
     console.log('Server started on port 3000');
+});
+
+// Route to fetch booked halls
+app.post('/booked_halls', (req, res) => {
+    const sql = `SELECT b.event_name, b.date, b.start_time, b.end_time, c.club_name 
+                 FROM Bookings b 
+                 JOIN Clubs c ON b.club_id = c.club_id 
+                 WHERE b.status = 'approved'`; // Assuming you only want approved bookings
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching booked halls:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json({ bookings: results });
+    });
 });
