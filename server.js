@@ -168,7 +168,7 @@ app.get('/bookings/:bookingId', (req, res) => {
     });
 });
 
-// Endpoint to fetch approved booked halls with club names
+// Endpoint to fetch approved booked halls with hall names and club names
 app.get('/booked_halls', (req, res) => {
     const sql = `
         SELECT 
@@ -176,10 +176,12 @@ app.get('/booked_halls', (req, res) => {
             b.date,
             b.start_time,
             b.end_time,
-            c.club_name
+            c.club_name,
+            sh.hall_name
         FROM 
             Bookings b
             JOIN Clubs c ON b.club_id = c.club_id
+            JOIN SeminarHalls sh ON b.hall_id = sh.hall_id
         WHERE 
             b.status = 'approved'
         ORDER BY 
@@ -199,12 +201,6 @@ app.get('/booked_halls', (req, res) => {
         });
     });
 });
-
-
-
-
-
-
 // Start the server
 app.listen(3000, () => {
     console.log('Server started on port 3000');

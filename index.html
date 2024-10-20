@@ -261,6 +261,102 @@
                 grid-template-columns: 1fr;
             }
         }
+        .secondary-btn {
+            position: fixed;
+            bottom: clamp(15px, 4vw, 30px);  /* Responsive bottom spacing */
+            right: clamp(15px, 4vw, 30px);   /* Responsive right spacing */
+            padding: clamp(10px, 2vw, 15px) clamp(15px, 3vw, 25px);
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: clamp(14px, 2.5vw, 16px);  /* Responsive font size */
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            z-index: 1000;
+            white-space: nowrap;  /* Prevent text wrapping */
+        }
+
+        .secondary-btn:hover {
+            transform: translateY(-2px);
+            background: #45a049;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .secondary-btn i {
+            font-size: clamp(16px, 2.5vw, 20px);  /* Responsive icon size */
+        }
+
+        /* Media queries for different screen sizes */
+        @media screen and (max-width: 768px) {
+            .secondary-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .secondary-btn {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .secondary-btn i {
+                font-size: 16px;
+            }
+        }
+
+        /* For very small screens, make button more compact */
+        @media screen and (max-width: 320px) {
+            .secondary-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .secondary-btn i {
+                font-size: 14px;
+            }
+        }
+
+        /* Optional: Hide button from admin-link section but preserve the class */
+        .admin-link .secondary-btn {
+            margin-top: 10px;
+            width: auto;
+            display: inline-flex;
+        }
+
+        /* Ensure button is visible above any modals or overlays */
+        .secondary-btn {
+            z-index: 9999;
+        }
+
+        /* Add touch target padding for mobile devices */
+        @media (hover: none) and (pointer: coarse) {
+            .secondary-btn {
+                padding: clamp(12px, 3vw, 18px) clamp(18px, 4vw, 28px);
+            }
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 0;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -279,9 +375,20 @@
         </form>
         <div class="admin-link">
             <a href="admin-login.html">Admin Login</a>
-            <a href="bookedhalls.html"><button class="secondary-btn">Booked halls</button></a>
-
         </div>
+<<<<<<< Updated upstream
+=======
+        <div><a href="bookedhalls.html">
+            <button class="secondary-btn">
+                <i class="fas fa-calendar-check"></i>
+                View Booked Halls
+            </button>
+        </a></div>
+        <div>
+            <p style="padding-left: 1.25rem;">Booking related issues contact IT Admin.</p>
+            <p style="padding-left: 2.80rem;">Founders Block, Room No: F500</p>
+        </div>
+>>>>>>> Stashed changes
     </section>
 
     <section id="booking-section" class="card">
@@ -317,6 +424,14 @@
             <button class="secondary-btn">Booked halls</button>
         </form>
     </section>
+<<<<<<< Updated upstream
+=======
+    
+    <footer class="copyright">
+        <p>&copy; 2024 Seminar Booking System. All rights reserved.</p>
+    </footer>
+    
+>>>>>>> Stashed changes
 
     <script src="scripts.js"></script>
     <script src="scripts2.js"></script>

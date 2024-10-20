@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (data.bookings.length === 0) {
                     const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="5">No approved bookings found</td>';
+                    row.innerHTML = '<td colspan="6">No approved bookings found</td>';
                     tableBody.appendChild(row);
                     return;
                 }
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${booking.event_name || 'N/A'}</td>
+                        <td>${booking.hall_name || 'N/A'}</td>
                         <td>${booking.date ? formatDate(booking.date) : 'N/A'}</td>
                         <td>${booking.start_time || 'N/A'}</td>
                         <td>${booking.end_time || 'N/A'}</td>
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const tableBody = document.querySelector('#booked-halls-table tbody');
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="5">Error loading bookings. Please try again later.</td>
+                        <td colspan="6">Error loading bookings. Please try again later.</td>
                     </tr>
                 `;
             });
