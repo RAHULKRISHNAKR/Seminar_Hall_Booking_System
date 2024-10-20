@@ -216,6 +216,26 @@ app.post('/admin-login', (req, res) => {
         }
     });
 });
+// Route to get club ID by club name
+app.get('/clubs/:name', (req, res) => {
+    const clubName = req.params.name;
+    console.log('Received club name:', clubName); // Log the received club name
+    const sql = 'SELECT club_id FROM Clubs WHERE club_name = ?';
+    db.query(sql, [clubName], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ status: 'error', message: 'Database query failed' });
+        }
+        if (result.length > 0) {
+            res.json({ status: 'success', club_id: result[0].club_id });
+        } else {
+            console.log('Club not found in database'); // Log when club is not found
+            res.json({ status: 'fail', message: 'Club not found' });
+        }
+    });
+});
+
+
 
 // Route to handle bookings
 app.post('/book', (req, res) => {
