@@ -79,11 +79,6 @@ The **Seminar Hall Booking System** is a web application designed to streamline 
 ## Contributing
 
 Contributions are welcome! If you have suggestions or improvements, feel free to create an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 Feel free to modify any sections to better fit your project specifics!
