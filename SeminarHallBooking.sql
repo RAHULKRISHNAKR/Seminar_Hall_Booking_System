@@ -138,3 +138,40 @@ select * from users;
 SELECT * FROM Users WHERE name = 'admin' AND password = 'admin123' AND role = 'admin';
 
 select * from bookings;
+
+DELIMITER //
+
+CREATE TRIGGER before_booking_insert
+BEFORE INSERT ON Bookings
+FOR EACH ROW
+BEGIN
+    DECLARE hall_availability INT;
+
+    -- Check if the hall is available
+    SELECT COUNT(*)
+    INTO hall_availability
+    FROM Availability
+    WHERE hall_id = NEW.hall_id
+    AND date = NEW.date
+    AND (
+        (start_time < NEW.end_time AND end_time > NEW.start_time)  -- Check for overlapping times
+    )
+    AND status = 'booked';  -- Only consider booked statuses
+
+    -- If the hall is already booked, signal an error
+    IF hall_availability > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Hall is not available for the selected date and time.';
+    END IF;
+
+    -- If available, mark the hall as booked
+    UPDATE Availability
+    SET status = 'booked'
+    WHERE hall_id = NEW.hall_id
+    AND date = NEW.date
+    AND (
+        (start_time < NEW.end_time AND end_time > NEW.start_time)  -- Ensure this condition is consistent
+    );
+END; //
+
+DELIMITER ;
