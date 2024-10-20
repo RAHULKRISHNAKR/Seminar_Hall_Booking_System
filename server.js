@@ -183,6 +183,18 @@ db.connect(err => {
     console.log('MySQL connected');
 });
 
+
+app.get('/test-db', (req, res) => {
+    db.query('SELECT 1', (err, results) => {
+        if (err) {
+            console.error('Database test failed:', err);
+            return res.status(500).json({ error: 'Database connection failed' });
+        }
+        res.json({ message: 'Database connection successful' });
+    });
+});
+
+
 // Route to handle user login
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -294,6 +306,7 @@ app.get('/bookings/:bookingId', (req, res) => {
         }
     });
 });
+
 
 // Start the server
 app.listen(3000, () => {

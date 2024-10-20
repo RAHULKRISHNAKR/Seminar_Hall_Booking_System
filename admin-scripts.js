@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch and display bookings
     function fetchBookings() {
-        fetch('/admin/bookings')
+        fetch('http://localhost:3000/admin/bookings')
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.querySelector('#bookings-table tbody');
