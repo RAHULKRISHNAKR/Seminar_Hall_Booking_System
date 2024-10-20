@@ -4,12 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Seminar Hall Booking System</title>
-    <link rel="stylesheet" href="admin-styles.css"> <!-- Link to your CSS -->
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
+<style><style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #4CAF50;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 14px;
+        color: #333;
+        display: block;
+        margin-bottom: 8px;
+        text-align: left;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    p {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    p a {
+        color: #007BFF;
+        text-decoration: none;
+    }
+
+    p a:hover {
+        text-decoration: underline;
+    }
+</style>
+</style>
 <body>
     <div><h1>Admin Login</h1></div>
-    
-
     <div id="admin-login-section">
         <form id="adminLoginForm">
             <label for="admin_username">Username:</label>
@@ -23,32 +96,31 @@
         <p><a href="index.html">User Login</a></p>
     </div>
 
-    <script src="admin-scripts.js"></script> 
-    <script>document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent form submission
-        const username = document.getElementById('admin_username').value;
-        const password = document.getElementById('admin_password').value;
-    
-        fetch('http://localhost:3000/admin-login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                window.location.href = 'admin-dashboard.html'; // Redirect to admin dashboard
-            } else {
-                alert('Login failed. Please check your credentials.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+    <script src="admin-scripts.js"></script>
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('admin_username').value;
+            const password = document.getElementById('admin_password').value;
+
+            fetch('http://localhost:3000/admin-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    alert('Login failed. Please check your credentials.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
         });
-    });
-    </script><!-- Ensure this script is linked -->
+    </script>
 </body>
 </html>
