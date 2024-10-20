@@ -1,183 +1,89 @@
-# Digital Seminar Hall Booking System
+# Seminar Hall Booking System
+---
+## KTU S5 DBMS MICROPROJECT
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 
-This project is a **Digital Seminar Hall Booking System** designed to streamline the process of booking seminar halls for various clubs and events within an institution. The system manages user roles (students, faculty, and admins), booking processes, approvals, and notifications, ensuring an efficient and organized booking experience.
+The **Seminar Hall Booking System** is a web application designed to streamline the process of booking seminar halls for various events. The system allows club executive committee members and teachers to log in, view available seminar halls, and make bookings. Admins can approve or deny these bookings, ensuring efficient management of the seminar hall resources.
 
 ## Features
 
-### 1. User Roles and Permissions
+- **User Authentication**: Secure login for club members and teachers.
+- **Booking Management**: Users can view available halls, book them, and view their booking history.
+- **Admin Dashboard**: Admins can view all bookings and have the ability to approve or deny requests.
+- **Real-time Updates**: The system updates the booking status and availability in real-time.
+- **Responsive Design**: The web application is designed to be user-friendly and responsive across devices.
 
-#### Students and Faculty:
-- Register and log in to the system.
-- View available seminar halls and check open time slots.
-- Make new bookings.
-- View booking history.
-- Receive notifications for booking confirmations, approvals, or rejections.
+## Technologies Used
 
-#### Admins:
-- Log in and access an admin panel.
-- View and manage booking requests.
-- Approve or reject bookings.
-- Add, update, or remove seminar halls.
-- Manage user accounts.
+- **Frontend**: 
+  - HTML
+  - CSS
+  - JavaScript
 
-### 2. Booking Management
-- **Hall Selection**: Users select from a list of available seminar halls.
-- **Event Details**: Users provide event name, description, and time slot.
-- **Real-time Availability**: System checks hall availability for the requested time.
-- **Pending Approval**: Bookings are pending admin approval.
-- **Cancel Bookings**: Users can cancel bookings before approval.
+- **Backend**: 
+  - Node.js
+  - Express.js
+  - MySQL
 
-### 3. Admin Approval System
-- Admins review pending bookings and approve or reject requests.
-- Remarks can be added for rejected bookings.
-- Notifications are sent to users regarding the booking status.
+## Installation
 
-### 4. Notifications (Optional)
-- Real-time notifications are sent via email or displayed on the user dashboard for booking updates, approvals, or rejections.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/RAHULKRISHNAKR/Seminar_Hall_Booking_System.git
+   cd Seminar_Hall_Booking_System
+   ```
 
-### 5. Reporting and Logs (Optional)
-- Admins can generate reports on booking statistics.
-- Audit logs track user and admin activities.
+2. **Install the dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Database Design
+3. **Set up the MySQL database:**
+   - Create a MySQL database and import the provided SQL scripts to set up the tables.
+   - Update the database connection details in the server file if necessary.
 
-The system uses a relational database to manage users, seminar halls, bookings, and approvals. Below is the database schema:
+4. **Run the server:**
+   ```bash
+   node server.js
+   ```
 
-### 1. **Users Table**
-Stores user information (students, faculty, and admins).
+5. **Access the application:**
+   - Open your browser and navigate to `http://localhost:3000`.
 
-```sql
-CREATE TABLE Users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    role ENUM('student', 'faculty', 'admin') NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-```
+## Usage
 
-### 2. **Clubs Table**
-Stores information about different clubs.
+- **User Login**: Club members and teachers can log in using their credentials.
+- **Book a Hall**: After logging in, users can select a hall and book it for a specified date and time.
+- **Admin Access**: Admins can log in to manage bookings and view the status of requests.
 
-```sql
-CREATE TABLE Clubs (
-    club_id INT PRIMARY KEY AUTO_INCREMENT,
-    club_name VARCHAR(100) UNIQUE NOT NULL
-);
-```
+## API Endpoints
 
-### 3. **User_Clubs Table**
-Handles the many-to-many relationship between users and clubs.
+| Method | Endpoint                | Description                           |
+|--------|-------------------------|---------------------------------------|
+| GET    | `/booked_halls`         | Fetch all booked halls                |
+| POST   | `/admin/approve/:id`    | Approve a booking by ID               |
+| POST   | `/admin/deny/:id`       | Deny a booking by ID                   |
 
-```sql
-CREATE TABLE User_Clubs (
-    user_id INT,
-    club_id INT,
-    PRIMARY KEY (user_id, club_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (club_id) REFERENCES Clubs(club_id)
-);
-```
+## Contributing
 
-### 4. **SeminarHalls Table**
-Stores seminar hall information.
+Contributions are welcome! If you have suggestions or improvements, feel free to create an issue or submit a pull request.
 
-```sql
-CREATE TABLE SeminarHalls (
-    hall_id INT PRIMARY KEY AUTO_INCREMENT,
-    hall_name VARCHAR(100) NOT NULL,
-    capacity INT NOT NULL
-);
-```
+## License
 
-### 5. **Bookings Table**
-Stores booking details, linking users, clubs, and seminar halls.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```sql
-CREATE TABLE Bookings (
-    booking_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    hall_id INT,
-    club_id INT,
-    event_name VARCHAR(255) NOT NULL,
-    date DATE NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (hall_id) REFERENCES SeminarHalls(hall_id),
-    FOREIGN KEY (club_id) REFERENCES Clubs(club_id)
-);
-```
+---
 
-### 6. **Approvals Table**
-Records booking approvals by admins.
-
-```sql
-CREATE TABLE Approvals (
-    approval_id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_id INT,
-    admin_id INT,
-    status ENUM('approved', 'rejected') NOT NULL,
-    remarks TEXT,
-    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id),
-    FOREIGN KEY (admin_id) REFERENCES Users(user_id)
-);
-```
-
-### 7. **Notifications Table (Optional)**
-Stores notification messages for users.
-
-```sql
-CREATE TABLE Notifications (
-    notification_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    message TEXT NOT NULL,
-    date_sent DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
-```
-
-## System Requirements
-
-### Backend
-- **Programming Language**: Python (Flask/Django), Java (Spring), or Node.js.
-- **Database**: MySQL, PostgreSQL, or another RDBMS.
-- **Web Server**: Apache, Nginx, or a cloud platform like Heroku for deployment.
-
-### Frontend
-- **Languages**: HTML, CSS, JavaScript.
-- **Frameworks**: Bootstrap, React.js, or Vue.js.
-
-### External APIs or Libraries
-- Email notifications: Libraries like Python's `smtplib` or external services like SendGrid.
-- Authentication: Libraries for password hashing (e.g., `bcrypt`) and session management.
-
-## Use Case Scenarios
-
-1. **Student/Faculty Booking a Hall**:
-   - User logs in, selects a hall, and submits a booking request.
-   
-2. **Admin Managing Requests**:
-   - Admin reviews and approves/rejects booking requests.
-   
-3. **User Receiving Notifications**:
-   - User receives notifications on booking approval or rejection.
-
-## UML Diagrams
-
-### Use Case Diagram
-
-Shows how different users interact with the system:
-- **Actors**: Student/Faculty and Admin.
-- **Use Cases**: Login, register, view halls, make a booking, check status, approve/reject booking, manage halls and users.
-
-### Class Diagram
-
-Defines system structure with classes such as `User`, `SeminarHall`, `Booking`, and `Approval`. Relationships between classes show the static structure.
-
-### Activity Diagram
-
-Outlines the process flow of booking a seminar hall, from login to receiving booking status notifications.
+Feel free to modify any sections to better fit your project specifics!
