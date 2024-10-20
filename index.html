@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Hall Booking System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Seminar Hall Booking System</h1>
+    </header>
+
+    <section id="login-section" class="form-section">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="primary-btn">Login</button>
+        </form>
+        <p><a href="admin-login.html">Admin Login</a></p>
+
+    </section>
+
+    <section id="booking-section" class="form-section" style="display:none;">
+        <h2>Book a Seminar Hall</h2>
+        <form id="bookingForm">
+            <div class="input-group">
+                <label for="event_name">Event Name</label>
+                <input type="text" id="event_name" placeholder="Enter event name" required>
+            </div>
+            <div class="input-group">
+                <label for="hall_id">Select Hall</label>
+                <input type="text" id="hall_id" placeholder="Enter hall ID" required>
+            </div>
+            <div class="input-group">
+                <label for="club_id">Club ID</label>
+                <input type="text" id="club_id" placeholder="Enter club ID" required>
+            </div>
+            <div class="input-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="input-group">
+                <label for="start_time">Start Time</label>
+                <input type="time" id="start_time" required>
+            </div>
+            <div class="input-group">
+                <label for="end_time">End Time</label>
+                <input type="time" id="end_time" required>
+            </div>
+            <button type="submit" class="primary-btn">Book</button>
+        </form>
+    </section>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

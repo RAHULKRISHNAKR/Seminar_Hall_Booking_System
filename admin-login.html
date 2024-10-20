@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Seminar Hall Booking System</title>
+    <link rel="stylesheet" href="admin-styles.css"> <!-- Link to your CSS -->
+</head>
+<body>
+    <div><h1>Admin Login</h1></div>
+    
+
+    <div id="admin-login-section">
+        <form id="adminLoginForm">
+            <label for="admin_username">Username:</label>
+            <input type="text" id="admin_username" required>
+            <br>
+            <label for="admin_password">Password:</label>
+            <input type="password" id="admin_password" required>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script src="admin-scripts.js"></script> 
+    <script>document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+        const username = document.getElementById('admin_username').value;
+        const password = document.getElementById('admin_password').value;
+    
+        fetch('http://localhost:3000/admin-login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = 'admin-dashboard.html'; // Redirect to admin dashboard
+            } else {
+                alert('Login failed. Please check your credentials.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
+    });
+    </script><!-- Ensure this script is linked -->
+</body>
+</html>
