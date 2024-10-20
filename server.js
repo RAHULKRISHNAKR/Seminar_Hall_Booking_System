@@ -171,7 +171,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // your MySQL username
-    password: 'nibras1234',  // your MySQL password
+    password: 'rahul123',  // your MySQL password
     database: 'SeminarHallBooking' // your database name
 });
 
@@ -307,12 +307,6 @@ app.get('/bookings/:bookingId', (req, res) => {
     });
 });
 
-
-// Start the server
-app.listen(3000, () => {
-    console.log('Server started on port 3000');
-});
-
 // Route to fetch booked halls
 app.post('/booked_halls', (req, res) => {
     const sql = `SELECT b.event_name, b.date, b.start_time, b.end_time, c.club_name 
@@ -327,3 +321,10 @@ app.post('/booked_halls', (req, res) => {
         res.json({ bookings: results });
     });
 });
+
+
+// Start the server
+app.listen(3000, () => {
+    console.log('Server started on port 3000');
+});
+
