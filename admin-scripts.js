@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Function to fetch and display bookings
     function fetchBookings() {
         fetch('http://localhost:3000/admin/bookings')
             .then(response => {
@@ -10,11 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 const tableBody = document.querySelector('#bookings-table tbody');
-                tableBody.innerHTML = ''; // Clear existing table rows
+                tableBody.innerHTML = '';
                 data.bookings.forEach(booking => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${booking.event_name}</td>
+                        <td>${booking.hall_name}</td>
                         <td>${booking.date}</td>
                         <td>${booking.start_time}</td>
                         <td>${booking.end_time}</td>
@@ -30,11 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching bookings:', error));
     }
 
-    // Fetch bookings immediately on page load
     fetchBookings();
-
-    // Set interval to fetch bookings every 5 seconds (5000 ms)
-    setInterval(fetchBookings, 5000); // Adjust the interval as needed
+    setInterval(fetchBookings, 5000);
 });
 
 // Function to approve booking
@@ -44,7 +41,7 @@ function approveBooking(bookingId) {
         .then(data => {
             if (data.message) {
                 alert('Booking approved!');
-                location.reload(); // Reload the table
+                location.reload();
             } else {
                 alert('Failed to approve booking.');
             }
@@ -59,7 +56,7 @@ function denyBooking(bookingId) {
         .then(data => {
             if (data.status === 'success') {
                 alert('Booking denied!');
-                location.reload(); // Reload the table
+                location.reload();
             } else {
                 alert('Failed to deny booking.');
             }

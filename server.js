@@ -93,20 +93,106 @@ app.get('/clubs/:name', (req, res) => {
 
 
 // Route to handle bookings
-app.post('/book', (req, res) => {
+// Update the booking route in your Express server
+
+app.post('/book', async (req, res) => {
     const { user_id, hall_id, club_id, event_name, date, start_time, end_time } = req.body;
-    const sql = 'INSERT INTO Bookings (user_id, hall_id, club_id, event_name, date, start_time, end_time, status, booking_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())';
-    db.query(sql, [user_id, hall_id, club_id, event_name, date, start_time, end_time, 'pending'], (err, result) => {
-        if (err) throw err;
-        res.json({ status: 'success', booking_id: result.insertId });
-    });
+
+    // First check if the hall is available
+    const checkAvailability = `
+        SELECT COUNT(*) as count
+        FROM Bookings
+        WHERE hall_id = ?
+        AND date = ?
+        AND status = 'approved'
+        AND (
+            (start_time < ? AND end_time > ?)
+            OR (start_time < ? AND end_time > ?)
+            OR (start_time >= ? AND end_time <= ?)
+        )
+    `;
+
+    try {
+        db.query(
+            checkAvailability,
+            [hall_id, date, end_time, start_time, end_time, start_time, start_time, end_time],
+            (err, results) => {
+                if (err) {
+                    console.error('Availability check error:', err);
+                    return res.status(500).json({ 
+                        status: 'error',
+                        error: 'Database error while checking availability'
+                    });
+                }
+
+                if (results[0].count > 0) {
+                    return res.status(409).json({
+                        status: 'error',
+                        error: 'Hall is not available for the selected date and time.'
+                    });
+                }
+
+                // If hall is available, proceed with booking
+                const insertBooking = `
+                    INSERT INTO Bookings 
+                    (user_id, hall_id, club_id, event_name, date, start_time, end_time, status, booking_time)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+                `;
+
+                db.query(
+                    insertBooking,
+                    [user_id, hall_id, club_id, event_name, date, start_time, end_time],
+                    (err, result) => {
+                        if (err) {
+                            console.error('Booking insertion error:', err);
+                            return res.status(500).json({
+                                status: 'error',
+                                error: 'Failed to create booking'
+                            });
+                        }
+
+                        res.json({
+                            status: 'success',
+                            booking_id: result.insertId
+                        });
+                    }
+                );
+            }
+        );
+    } catch (error) {
+        console.error('Server error:', error);
+        res.status(500).json({
+            status: 'error',
+            error: 'Internal server error'
+        });
+    }
 });
 
 // Admin bookings route
-app.get('/admin/bookings', (req, res) => {
+/* app.get('/admin/bookings', (req, res) => {
     const query = 'SELECT * FROM bookings'; // Ensure the table name is correct
     db.query(query, (err, results) => {
         if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json({ bookings: results });
+    });
+}); */
+
+// Admin bookings route
+app.get('/admin/bookings', (req, res) => {
+    const query = `
+        SELECT 
+            b.*,
+            sh.hall_name
+        FROM 
+            Bookings b
+            JOIN SeminarHalls sh ON b.hall_id = sh.hall_id
+    `;
+    
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
             return res.status(500).json({ error: 'Database error' });
         }
         res.json({ bookings: results });
@@ -166,6 +252,49 @@ app.get('/bookings/:bookingId', (req, res) => {
             res.status(404).json({ status: 'fail', message: 'Booking not found' });
         }
     });
+});
+
+app.post('/check-availability', (req, res) => {
+    const { hall_id, date, start_time, end_time } = req.body;
+
+    const query = `
+        SELECT COUNT(*) as count
+        FROM Bookings
+        WHERE hall_id = ?
+        AND date = ?
+        AND status = 'approved'
+        AND (
+            (start_time < ? AND end_time > ?)
+            OR (start_time < ? AND end_time > ?)
+            OR (start_time >= ? AND end_time <= ?)
+        )
+    `;
+
+    db.query(
+        query,
+        [hall_id, date, end_time, start_time, end_time, start_time, start_time, end_time],
+        (err, results) => {
+            if (err) {
+                console.error('Availability check error:', err);
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Error checking hall availability'
+                });
+            }
+
+            if (results[0].count > 0) {
+                return res.status(409).json({
+                    status: 'error',
+                    message: 'Hall is not available for the selected time slot'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Hall is available'
+            });
+        }
+    );
 });
 
 // Endpoint to fetch approved booked halls with hall names and club names
