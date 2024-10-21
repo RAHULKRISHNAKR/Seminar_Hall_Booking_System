@@ -100,8 +100,6 @@ VALUES
 ('TINKERHUB'),
 ('TnP MACE');
 
-SHOW TABLES;
-SELECT * FROM Clubs;
 
 -- Insert Users
 INSERT INTO Users (name, email, role, password) VALUES
@@ -125,7 +123,6 @@ INSERT INTO User_Clubs (user_id, club_id) VALUES
 (5, 2),  -- Alan -> ASME
 (6, 5);  -- Chacko -> DIVAAT
 
-show tables;
 
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'rahul123';
 FLUSH PRIVILEGES;
@@ -133,11 +130,19 @@ FLUSH PRIVILEGES;
 INSERT INTO Users (name, email, password, role) 
 VALUES ('Test User', 'test@example.com', 'user123', 'teacher');
 
-select * from users;
-
 SELECT * FROM Users WHERE name = 'admin' AND password = 'admin123' AND role = 'admin';
 
+SELECT COUNT(*) FROM Bookings;
+
+DESCRIBE clubs;
+
+select * from users;
+select * from clubs;
+select * from seminarhalls;
 select * from bookings;
+select * from availability;
+show tables;
+
 
 DELIMITER //
 
