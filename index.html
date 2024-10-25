@@ -185,16 +185,16 @@
                 grid-template-columns: 1fr;
             }
         }
-        .secondary-btn {
+        #login-section .secondary-btn {
             position: fixed;
-            bottom: clamp(15px, 4vw, 30px);  /* Responsive bottom spacing */
-            right: clamp(15px, 4vw, 30px);   /* Responsive right spacing */
+            bottom: clamp(15px, 4vw, 30px);
+            right: clamp(15px, 4vw, 30px);
             padding: clamp(10px, 2vw, 15px) clamp(15px, 3vw, 25px);
             background: #4CAF50;
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: clamp(14px, 2.5vw, 16px);  /* Responsive font size */
+            font-size: clamp(14px, 2.5vw, 16px);
             font-weight: 500;
             text-decoration: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -204,17 +204,18 @@
             gap: 8px;
             cursor: pointer;
             z-index: 1000;
-            white-space: nowrap;  /* Prevent text wrapping */
+            white-space: nowrap;
         }
 
-        .secondary-btn:hover {
+        #login-section .secondary-btn:hover {
             transform: translateY(-2px);
             background: #45a049;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
 
-        .secondary-btn i {
-            font-size: clamp(16px, 2.5vw, 20px);  /* Responsive icon size */
+        /* Hide secondary button in booking section */
+        #booking-section .secondary-btn {
+            display: none;
         }
 
         /* Media queries for different screen sizes */
@@ -300,12 +301,14 @@
         <div class="admin-link">
             <a href="admin-login.html">Admin Login</a>
         </div>
-        <div><a href="bookedhalls.html">
-            <button class="secondary-btn">
-                <i class="fas fa-calendar-check"></i>
-                View Booked Halls
-            </button>
-        </a></div>
+        <div>
+            <a href="bookedhalls.html">
+                <button class="secondary-btn">
+                    <i class="fas fa-calendar-check"></i>
+                    View Booked Halls
+                </button>
+            </a>
+        </div>
         <div>
             <p style="padding-left: 1.25rem;">Booking related issues contact IT Admin.</p>
             <p style="padding-left: 2.80rem;">Founders Block, Room No: F500</p>
@@ -342,14 +345,12 @@
                 </div>
             </div>
             <button type="submit" class="primary-btn">Book Hall</button>
-            <button id="bookedHallsBtn" class="secondary-btn">Booked halls</button>
         </form>
     </section>
     
     <footer class="copyright">
         <p>&copy; 2024 Seminar Booking System. All rights reserved.</p>
     </footer>
-    
 
     <script src="scripts.js"></script>
     <script src="scripts2.js"></script>
