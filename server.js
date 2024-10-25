@@ -93,7 +93,6 @@ app.get('/clubs/:name', (req, res) => {
 
 
 // Route to handle bookings
-// Update the booking route in your Express server
 
 app.post('/book', async (req, res) => {
     const { user_id, hall_id, club_id, event_name, date, start_time, end_time } = req.body;
@@ -167,17 +166,6 @@ app.post('/book', async (req, res) => {
         });
     }
 });
-
-// Admin bookings route
-/* app.get('/admin/bookings', (req, res) => {
-    const query = 'SELECT * FROM bookings'; // Ensure the table name is correct
-    db.query(query, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Database error' });
-        }
-        res.json({ bookings: results });
-    });
-}); */
 
 // Admin bookings route
 app.get('/admin/bookings', (req, res) => {
