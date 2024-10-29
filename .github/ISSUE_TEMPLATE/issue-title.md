@@ -1,10 +1,10 @@
 ---
-name: Issue Title
+name: iSSUE Name
 about: 'Use a descriptive title that summarizes the problem or request (e.g., "Bug:
   Navbar alignment issue on mobile view").'
-title: ''
-labels: ''
-assignees: ''
+title: 'Name your TItle'
+labels: 'Add Labels'
+assignees: 'Me'
 
 ---
 
